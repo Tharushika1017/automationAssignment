@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="SearchTestSuite">
+    <parameter name="env.url" value="https://faoschwarz.com"/>
+    <parameter name="browser" value="chrome"/>
+    <parameter name="timeout" value="30"/>
+    <test name="SearchTest">
+        <classes>
+            <class name="tests.SearchTest"/>
+        </classes>
+    </test>
+</suite>
