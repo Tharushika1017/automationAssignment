@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,19 +24,16 @@ public class SearchPage extends BasePage {
     WebElement searchResultHeader;
     @FindBy(xpath = "//a[@data-section='productList']/b")
     WebElement productCount;
-    //private By productPriceList = By.xpath("//span[@class='kuSalePrice kuSpecialPrice']");
-    //@FindBy(xpath = "//div[contains(text(),'" + dropDownOptionName + "')]")
     @FindAll(@FindBy(how = How.XPATH, using = "//span[@class='kuSalePrice kuSpecialPrice']"))
     List<WebElement> productPriceList;
     @FindBy(xpath = "//div[@class='klevuLanding klevuTarget kuLEFTFilters kuSearchResultsPageContainer']")
     WebElement productContainer;
-    @FindBy(xpath = "//div[contains(text(),'Price: Low to high')]")
-    WebElement sortByOptionText;
     @FindBy(xpath = "//div[@class='kuPagination']/a[text()='>']")
     WebElement nextButton;
     @FindBy(xpath = "//div[@class='kuPagination']/a[text()='<<']")
     WebElement firstPageLeftButton;
-
+    @FindBy(xpath = "//div[@class='kuResults']//li")
+    WebElement firstProduct;
 
     public boolean isSearchResultHeaderDisplayed() {
         if (searchResultHeader.isDisplayed()) {
@@ -50,12 +46,14 @@ public class SearchPage extends BasePage {
     }
 
     public int getProductCount() {
+        waitForPresent(productCount);
         String count = (productCount.getText());
         return Integer.parseInt(count);
     }
 
 
     public List<Double> getProductList() {
+        waitForPresent(productContainer);
         List<Double> list = new ArrayList<>();
         for (WebElement p : productPriceList) {
             list.add(Double.valueOf(p.getText().replace("$", "")));
@@ -65,7 +63,7 @@ public class SearchPage extends BasePage {
             if (isNextButtonDisplayed()) {
                 jsClick(nextButton);
                 // Wait for the page to load after clicking "Next"
-                wait.until(ExpectedConditions.visibilityOf(productContainer));
+                waitForPresent(productContainer);
                 for (WebElement p : productPriceList) {
                     list.add(Double.valueOf(p.getText().replace("$", "")));
                 }
@@ -74,8 +72,7 @@ public class SearchPage extends BasePage {
                 break;
             }
         }
-        waitForPresent(firstPageLeftButton);
-        jsClick(firstPageLeftButton);
+
         return list;
 
     }
@@ -86,24 +83,10 @@ public class SearchPage extends BasePage {
     }
 
     public void clickDropDownOptionByName(String dropDownOptionName) {
+        waitForPresent(sortDropdown);
         sortDropdown.click();
+        WebElement sortByOptionText=driver.findElement(By.xpath("//div[contains(text(),'" + dropDownOptionName + "')]"));
         sortByOptionText.click();
-    }
-
-    public void selectSortOrder(String order) {
-        sortDropdown.sendKeys(order);
-    }
-
-    public boolean isProductCountDisplayed() {
-        try {
-            waitForPresent(productCount);
-            return isDisplayed((productCount));
-
-        } catch (Exception e) {
-            System.out.println("Failed to close popup: " + e.getMessage());
-
-        }
-        return false;
     }
 
     public boolean isNextButtonDisplayed() {
@@ -114,4 +97,15 @@ public class SearchPage extends BasePage {
             return false;
         }
     }
+
+    public void clickFirstPageLeftButton() {
+        waitForPresent(firstPageLeftButton);
+        jsClick(firstPageLeftButton);
+    }
+
+    public void clickOnAProduct() {
+        waitForPresent(firstProduct);
+        firstProduct.click();
+    }
+
 }

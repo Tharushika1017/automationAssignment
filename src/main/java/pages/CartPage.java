@@ -7,35 +7,37 @@ import org.openqa.selenium.support.FindBy;
 public class CartPage extends BasePage {
 
 
-    @FindBy(id = "cart-popup")
-    private WebElement cartPopup;
+    @FindBy(xpath = "//div[@class='cart__item']//input")
+    WebElement productItemCount;
 
-    @FindBy(css = ".cart-item-count")
-    private WebElement cartItemCount;
+    @FindBy(xpath = "//div[@data-subtotal]")
+    WebElement subtotal;
 
-    @FindBy(css = ".cart-subtotal")
-    private WebElement subtotal;
-
-    @FindBy(id = "chat-icon")
-    private WebElement chatIcon;
+    @FindBy(id = "gorgias-chat-messenger-button")
+    WebElement chatIcon;
+    @FindBy(id = "chat-button")
+    WebElement iframe;
 
     public CartPage(WebDriver driver) {
         super(driver);
     }
 
     public boolean isCartPopupDisplayed() {
-        return cartPopup.isDisplayed();
+        waitForPresent(productItemCount);
+        return productItemCount.isDisplayed();
     }
 
-    public String getCartItemCount() {
-        return cartItemCount.getText();
+    public int getCartItemCount() {
+        waitForPresent(productItemCount);
+        return Integer.parseInt(productItemCount.getAttribute("value"));
     }
 
-    public String getSubtotal() {
-        return subtotal.getText();
+    public double getSubtotal() {
+        return Double.parseDouble(subtotal.getText().replace("$", ""));
     }
 
     public boolean isChatIconDisplayed() {
+        driver.switchTo().frame(iframe);
         return chatIcon.isDisplayed();
     }
 }

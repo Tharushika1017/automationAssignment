@@ -1,27 +1,51 @@
 package pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class ProductPage extends BasePage {
 
-    @FindBy(xpath = "//button[@id='add-to-cart']")
+    @FindBy(xpath = "//h1[@class='h2 product-single__title']")
+    WebElement productNameHeader;
+    @FindBy(name = "quantity")
+    WebElement qtyInput;
+    @FindBy(xpath = "//span[@class='product__price']")
+    WebElement productPrice;
+    @FindBy(id = "AddToCartText-")
     WebElement addToCartButton;
-
-    @FindBy(xpath = "//span[@id='cart-item-count']")
-    WebElement cartItemCount;
 
     public ProductPage(WebDriver driver) {
         super(driver);
     }
 
-    public void clickAddToCart() {
+    public boolean isProductNameHeaderDisplayed() {
+        try {
+            waitForPresent(productNameHeader);
+            return isDisplayed((productNameHeader));
+
+        } catch (Exception e) {
+            System.out.println("Failed to load product: " + e.getMessage());
+
+        }
+        return false;
+    }
+
+    public void clearAndSendQty(int quantity) {
+        qtyInput.click();
+        qtyInput.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE);
+        qtyInput.sendKeys(Integer.toString(quantity));
+    }
+
+    public void clickAddToCartButton() {
         addToCartButton.click();
     }
 
-    public String getCartItemCount() {
-        return cartItemCount.getText();
+    public double calculateTotal(int Quantity) {
+
+        double price = Double.parseDouble(productPrice.getText().replace("$", ""));
+        return price * Quantity;
     }
+
 }

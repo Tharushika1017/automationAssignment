@@ -1,8 +1,10 @@
 {
   "searchQuery": "dog",
-  "sortOrder": "low to high",
-  "product": {
-    "name": "Toy Car",
-    "price": "19.99"
-  }
+  "sortOrder": "Price: Low to high",
+  "homePageTitle": "Iconic Toy Store For Kids of All Ages | FAO Schwarz",
+  "searchResultPageHeader": "Search Result header was not dispalyed",
+  "errorCountMismatch": "Initial count and sorted count is different",
+  "errorSortMismatch": "Sorted list is different from initial list",
+  "getErrorCountNotFound": "Count was not found",
+  "quantity": 3
 }
