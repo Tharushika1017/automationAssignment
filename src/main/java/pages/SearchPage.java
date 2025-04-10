@@ -74,6 +74,7 @@ public class SearchPage extends BasePage {
                 break;
             }
         }
+        waitForPresent(firstPageLeftButton);
         jsClick(firstPageLeftButton);
         return list;
 
