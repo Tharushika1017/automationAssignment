@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SearchTest extends BaseTest {
     @Test
-    public void searchDataDrivenTest() {
+    public void searchAndVerifyAddToCartPageDetails() {
 
         SoftAssert softAssert = new SoftAssert();
         homePage.closeInitialPopupIfPresent();

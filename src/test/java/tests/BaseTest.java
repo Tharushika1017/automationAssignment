@@ -29,7 +29,7 @@ public abstract class BaseTest {
     @Parameters({"env.url", "browser", "timeout"})
     public void setup(String url, String browser, String timeout) throws IOException {
         this.url = url;
-        driver = DriverManager.setupDriver();  // Using WebDriverManager for automatic setup
+        driver = DriverManager.setupDriver(browser);  // Using WebDriverManager for automatic setup
         homePage = new HomePage(driver);
         driver.get(this.url);
         searchPage = new SearchPage(driver);
