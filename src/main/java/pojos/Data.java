@@ -6,7 +6,7 @@ public class Data {
     private final String homePageTitle;
     private final String searchResultHeader;
     private final String errorCountMismatch;
-    private int quantity;
+    private final int quantity;
 
     public Data(String searchQuery, String sortOrder, String homePageTitle, String searchResultHeader, String errorCountMismatch, int quantity) {
         this.searchQuery = searchQuery;

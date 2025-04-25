@@ -34,6 +34,10 @@ public class SearchPage extends BasePage {
     WebElement firstPageLeftButton;
     @FindBy(xpath = "//div[@class='kuResults']//li")
     WebElement firstProduct;
+    @FindAll(@FindBy(how = How.XPATH, using = "//footer[@data-block-id='ku_landing_result_item_footer']//div[@class='grid-product__vendor']"))
+    List<WebElement> productWithBrandList;
+    @FindBy(xpath = "//footer[@data-block-id='ku_landing_result_item_footer']//div[@class='grid-product__vendor']")
+    WebElement brandName;
 
     public boolean isSearchResultHeaderDisplayed() {
         if (searchResultHeader.isDisplayed()) {
@@ -81,11 +85,10 @@ public class SearchPage extends BasePage {
         Collections.sort(list);
         return list;
     }
-
     public void clickDropDownOptionByName(String dropDownOptionName) {
         waitForPresent(sortDropdown);
         sortDropdown.click();
-        WebElement sortByOptionText=driver.findElement(By.xpath("//div[contains(text(),'" + dropDownOptionName + "')]"));
+        WebElement sortByOptionText = driver.findElement(By.xpath("//div[contains(text(),'" + dropDownOptionName + "')]"));
         sortByOptionText.click();
     }
 
@@ -106,6 +109,19 @@ public class SearchPage extends BasePage {
     public void clickOnAProduct() {
         waitForPresent(firstProduct);
         firstProduct.click();
+    }
+
+    public String getBrandName() {
+        return brandName.getText();
+    }
+
+    public List<String> getBrandNameList() {
+        List<String> list = new ArrayList<>();
+        for (WebElement p : productWithBrandList) {
+            list.add(p.getText());
+        }
+
+        return list;
     }
 
 }

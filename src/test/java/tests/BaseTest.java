@@ -25,7 +25,7 @@ public abstract class BaseTest {
     Data data;
 
 
-    @BeforeClass
+    @BeforeMethod
     @Parameters({"env.url", "browser", "timeout"})
     public void setup(String url, String browser, String timeout) throws IOException {
         this.url = url;
@@ -40,7 +40,7 @@ public abstract class BaseTest {
         data = JsonReader.getTestData(configReader.getProperty("jsonFilePath"), Data.class);
     }
 
-    @AfterClass
+    @AfterMethod
     public void tearDown() {
         if (driver != null) {
             driver.quit();

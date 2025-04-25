@@ -8,7 +8,7 @@ import pages.BasePage;
 import java.util.List;
 
 public class SearchTest extends BaseTest {
-    @Test
+   @Test
     public void searchAndVerifyAddToCartPageDetails() {
 
         SoftAssert softAssert = new SoftAssert();
@@ -22,7 +22,7 @@ public class SearchTest extends BaseTest {
         searchPage.clickFirstPageLeftButton();
         searchPage.clickDropDownOptionByName(data.getSortOrder());
         int SortedProductCount = searchPage.getProductCount();
-        List<Double> doubleSortedList = searchPage.sortList(searchPage.getProductList());
+        List<Double> doubleSortedList = searchPage.getProductList();
         softAssert.assertEquals(productCount, SortedProductCount, data.getErrorCountMismatch());
         softAssert.assertEquals(initialDoubleSortedList, doubleSortedList, data.getErrorSortMismatch());
         searchPage.clickOnAProduct();
@@ -34,7 +34,20 @@ public class SearchTest extends BaseTest {
         Assert.assertEquals(cartPage.getCartItemCount(), data.getQuantity());
         Assert.assertEquals(cartPage.getSubtotal(), productTotal);
         Assert.assertTrue(cartPage.isChatIconDisplayed());
+        softAssert.assertAll();
     }
 
+    @Test
+    public void searchProductFromBrandName() throws InterruptedException {
+        homePage.closeInitialPopupIfPresent();
+        homePage.clickOnShopBySelection();
+        homePage.clickOnCategory();
+        homePage.clickNarrowByOption();
+        Thread.sleep(2000);
+        for (String s : searchPage.getBrandNameList()) {
+            Assert.assertEquals(s.toLowerCase(), "abc", "Brand is not matching");
+        }
+    }
 }
+
 
